@@ -1,0 +1,80 @@
+name: Build & Test
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    services:
+      sqlserver:
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        env:
+          ACCEPT_EULA: Y
+          SA_PASSWORD: YourPassword123!
+        options: >-
+          --health-cmd="/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P YourPassword123! -Q 'SELECT 1'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 3
+        ports:
+          - 1433:1433
+
+      redis:
+        image: redis:7-alpine
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 3
+        ports:
+          - 6379:6379
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '9.0.x'
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+
+    - name: Run tests
+      run: dotnet test --configuration Release --no-build --verbosity normal --logger "trx;LogFileName=test-results.trx"
+      env:
+        ConnectionStrings__DefaultConnection: "Server=localhost,1433;Database=JobProcessingPlatform;User Id=sa;Password=YourPassword123!;"
+        Redis__Connection: "localhost:6379"
+
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: test-results
+        path: '**/test-results.trx'
+
+    - name: Publish API
+      run: dotnet publish src/JobProcessingPlatform.API/JobProcessingPlatform.API.csproj -c Release -o ./publish-api
+
+    - name: Publish Worker
+      run: dotnet publish src/JobProcessingPlatform.Worker/JobProcessingPlatform.Worker.csproj -c Release -o ./publish-worker
+
+    - name: Upload API artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: api-build
+        path: ./publish-api
+
+    - name: Upload Worker artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: worker-build
+        path: ./publish-worker

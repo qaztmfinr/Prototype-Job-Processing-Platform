@@ -1,0 +1,49 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34309.116
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobProcessingPlatform.Domain", "src\JobProcessingPlatform.Domain\JobProcessingPlatform.Domain.csproj", "{1A2B3C4D-5E6F-7G8H-9I0J-1K2L3M4N5O6P}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobProcessingPlatform.Application", "src\JobProcessingPlatform.Application\JobProcessingPlatform.Application.csproj", "{2B3C4D5E-6F7G-8H9I-0J1K-2L3M4N5O6P7Q}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobProcessingPlatform.Infrastructure", "src\JobProcessingPlatform.Infrastructure\JobProcessingPlatform.Infrastructure.csproj", "{3C4D5E6F-7G8H-9I0J-1K2L-3M4N5O6P7Q8R}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobProcessingPlatform.API", "src\JobProcessingPlatform.API\JobProcessingPlatform.API.csproj", "{4D5E6F7G-8H9I-0J1K-2L3M-4N5O6P7Q8R9S}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobProcessingPlatform.Worker", "src\JobProcessingPlatform.Worker\JobProcessingPlatform.Worker.csproj", "{5E6F7G8H-9I0J-1K2L-3M4N-5O6P7Q8R9S0T}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobProcessingPlatform.Tests", "tests\JobProcessingPlatform.Tests\JobProcessingPlatform.Tests.csproj", "{6F7G8H9I-0J1K-2L3M-4N5O-6P7Q8R9S0T1U}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1A2B3C4D-5E6F-7G8H-9I0J-1K2L3M4N5O6P}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A2B3C4D-5E6F-7G8H-9I0J-1K2L3M4N5O6P}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A2B3C4D-5E6F-7G8H-9I0J-1K2L3M4N5O6P}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A2B3C4D-5E6F-7G8H-9I0J-1K2L3M4N5O6P}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B3C4D5E-6F7G-8H9I-0J1K-2L3M4N5O6P7Q}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B3C4D5E-6F7G-8H9I-0J1K-2L3M4N5O6P7Q}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B3C4D5E-6F7G-8H9I-0J1K-2L3M4N5O6P7Q}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B3C4D5E-6F7G-8H9I-0J1K-2L3M4N5O6P7Q}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C4D5E6F-7G8H-9I0J-1K2L-3M4N5O6P7Q8R}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C4D5E6F-7G8H-9I0J-1K2L-3M4N5O6P7Q8R}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C4D5E6F-7G8H-9I0J-1K2L-3M4N5O6P7Q8R}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C4D5E6F-7G8H-9I0J-1K2L-3M4N5O6P7Q8R}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D5E6F7G-8H9I-0J1K-2L3M-4N5O6P7Q8R9S}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D5E6F7G-8H9I-0J1K-2L3M-4N5O6P7Q8R9S}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D5E6F7G-8H9I-0J1K-2L3M-4N5O6P7Q8R9S}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D5E6F7G-8H9I-0J1K-2L3M-4N5O6P7Q8R9S}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E6F7G8H-9I0J-1K2L-3M4N-5O6P7Q8R9S0T}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E6F7G8H-9I0J-1K2L-3M4N-5O6P7Q8R9S0T}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E6F7G8H-9I0J-1K2L-3M4N-5O6P7Q8R9S0T}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E6F7G8H-9I0J-1K2L-3M4N-5O6P7Q8R9S0T}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F7G8H9I-0J1K-2L3M-4N5O-6P7Q8R9S0T1U}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F7G8H9I-0J1K-2L3M-4N5O-6P7Q8R9S0T1U}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F7G8H9I-0J1K-2L3M-4N5O-6P7Q8R9S0T1U}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F7G8H9I-0J1K-2L3M-4N5O-6P7Q8R9S0T1U}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

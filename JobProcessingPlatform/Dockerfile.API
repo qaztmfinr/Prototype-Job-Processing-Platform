@@ -1,0 +1,28 @@
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+
+WORKDIR /src
+
+# Copy project files
+COPY ["src/JobProcessingPlatform.API/JobProcessingPlatform.API.csproj", "src/JobProcessingPlatform.API/"]
+COPY ["src/JobProcessingPlatform.Application/JobProcessingPlatform.Application.csproj", "src/JobProcessingPlatform.Application/"]
+COPY ["src/JobProcessingPlatform.Domain/JobProcessingPlatform.Domain.csproj", "src/JobProcessingPlatform.Domain/"]
+COPY ["src/JobProcessingPlatform.Infrastructure/JobProcessingPlatform.Infrastructure.csproj", "src/JobProcessingPlatform.Infrastructure/"]
+
+# Restore dependencies
+RUN dotnet restore "src/JobProcessingPlatform.API/JobProcessingPlatform.API.csproj"
+
+# Copy remaining source code
+COPY . .
+
+# Publish
+RUN dotnet publish "src/JobProcessingPlatform.API/JobProcessingPlatform.API.csproj" -c Release -o /app/publish
+
+FROM mcr.microsoft.com/dotnet/aspnet:9.0
+
+WORKDIR /app
+
+COPY --from=build /app/publish .
+
+EXPOSE 8080
+
+ENTRYPOINT ["dotnet", "JobProcessingPlatform.API.dll"]

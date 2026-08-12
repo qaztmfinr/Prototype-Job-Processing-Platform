@@ -1,0 +1,11 @@
+# Launch Profile for Worker Service
+{
+  "profiles": {
+    "JobProcessingPlatform.Worker": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

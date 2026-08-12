@@ -1,0 +1,101 @@
+version: '3.8'
+
+services:
+  # SQL Server Database
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "YourPassword123!"
+      MSSQL_PID: "Express"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    networks:
+      - job-processing-network
+    healthcheck:
+      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "YourPassword123!", "-Q", "SELECT 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # PostgreSQL Database (alternative)
+  # postgres:
+  #   image: postgres:16-alpine
+  #   environment:
+  #     POSTGRES_DB: JobProcessingPlatform
+  #     POSTGRES_PASSWORD: postgres
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   networks:
+  #     - job-processing-network
+
+  # Redis Cache & Queue
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - job-processing-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ASP.NET Core API
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.API
+    container_name: jobprocessing-api
+    ports:
+      - "5000:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__DefaultConnection: "Server=db;Database=JobProcessingPlatform;User Id=sa;Password=YourPassword123!;Encrypt=false;"
+      Database__Provider: "SqlServer"
+      Redis__Connection: "redis:6379"
+      Jwt__Secret: "YourSuperSecretKeyThatIsAtLeast32CharactersLongForHS256"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - job-processing-network
+    restart: unless-stopped
+
+  # Background Worker Service
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.Worker
+    container_name: jobprocessing-worker
+    environment:
+      DOTNET_ENVIRONMENT: Production
+      ConnectionStrings__DefaultConnection: "Server=db;Database=JobProcessingPlatform;User Id=sa;Password=YourPassword123!;Encrypt=false;"
+      Database__Provider: "SqlServer"
+      Redis__Connection: "redis:6379"
+      Jwt__Secret: "YourSuperSecretKeyThatIsAtLeast32CharactersLongForHS256"
+    depends_on:
+      - db
+      - redis
+    networks:
+      - job-processing-network
+    restart: unless-stopped
+
+volumes:
+  sqlserver_data:
+  postgres_data:
+  redis_data:
+
+networks:
+  job-processing-network:
+    driver: bridge
